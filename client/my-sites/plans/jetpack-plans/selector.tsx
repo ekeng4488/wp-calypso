@@ -10,16 +10,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { recordTracksEvent } from 'calypso/state/analytics/actions/record';
 import { EXTERNAL_PRODUCTS_LIST } from 'calypso/my-sites/plans/jetpack-plans/constants';
 import { checkout, manageSitePurchase } from 'calypso/my-sites/plans/jetpack-plans/utils';
-import QueryProducts from 'calypso/my-sites/plans/jetpack-plans/query-products';
 import PageViewTracker from 'calypso/lib/analytics/page-view-tracker';
 import { getYearlyPlanByMonthly } from '@automattic/calypso-products';
 import { getProductYearlyVariant, isJetpackPlan } from 'calypso/lib/products-values';
 import { TERM_ANNUALLY } from '@automattic/calypso-products';
 import { getSelectedSiteId, getSelectedSiteSlug } from 'calypso/state/ui/selectors';
 import Main from 'calypso/components/main';
-import QuerySitePurchases from 'calypso/components/data/query-site-purchases';
-import QuerySites from 'calypso/components/data/query-sites';
 import QueryProductsList from 'calypso/components/data/query-products-list';
+import QuerySites from 'calypso/components/data/query-sites';
+import QuerySiteProducts from 'calypso/components/data/query-site-products';
+import QuerySitePurchases from 'calypso/components/data/query-site-purchases';
 import ProductGrid from './product-grid';
 
 /**
@@ -144,8 +144,7 @@ const SelectorPage: React.FC< SelectorPageProps > = ( {
 				onDurationChange={ trackDurationChange }
 			/>
 
-			<QueryProductsList />
-			<QueryProducts />
+			{ siteId ? <QuerySiteProducts siteId={ siteId } /> : <QueryProductsList type="jetpack" /> }
 			{ siteId && <QuerySitePurchases siteId={ siteId } /> }
 			{ siteId && <QuerySites siteId={ siteId } /> }
 
