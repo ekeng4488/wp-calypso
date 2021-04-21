@@ -99,10 +99,11 @@ export const removeP2SignupClassName = function () {
 export default {
 	redirectTests( context, next ) {
 		const currentFlowName = getFlowName( context.params );
-		currentFlowName === 'onboarding' && loadExperimentAssignment( 'refined_reskin_v1' );
+		[ 'onboarding', 'with-design-picker' ].includes( currentFlowName ) &&
+			loadExperimentAssignment( 'refined_reskin_v1' );
 		if ( context.pathname.indexOf( 'new-launch' ) >= 0 ) {
 			next();
-		} else if ( currentFlowName === 'onboarding' ) {
+		} else if ( [ 'onboarding', 'with-design-picker' ].includes( currentFlowName ) ) {
 			document.body.classList.add( 'is-white-signup' );
 			next();
 		} else if (
