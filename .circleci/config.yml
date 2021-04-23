@@ -12,8 +12,8 @@ references:
     environment:
       CIRCLE_ARTIFACTS: /tmp/artifacts
       CIRCLE_TEST_REPORTS: /tmp/test_results
-      PUPPETEER_SKIP_DOWNLOAD: 'true'
-      DETECT_CHROMEDRIVER_VERSION: 'false'
+      PUPPETEER_SKIP_DOWNLOAD:'true'
+      DETECT_CHROMEDRIVER_VERSION:'false'
       CHROMEDRIVER_FILEPATH: /usr/local/bin/chromedriver
       NODE_OPTIONS: --max-old-space-size=3072
       npm_config_cache: /home/circleci/.cache/yarn
@@ -67,7 +67,6 @@ references:
     paths:
       - ~/jest-cache
 
-  #
   # Build cache
   #
   # This contains caches used by the build process (mainly webpack loaders and plugins)
@@ -907,7 +906,6 @@ jobs:
             # Build all artifacts only when project config changes.
             # Otherwise only build application executable required for end-to-end testing.
             If ( -Not $(git diff --name-only origin/trunk...HEAD | Select-String -Pattern desktop/package.json,desktop/yarn.lock) ) { $env:ARG2='-c.win.target=dir' }
-
 
             make -f desktop/Makefile package ELECTRON_BUILDER_ARGS=$($env:ARG1,$env:ARG2 -join " ")
       - run:
