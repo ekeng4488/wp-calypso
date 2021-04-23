@@ -28,4 +28,7 @@ html,
 body {
 	font-family: $default-font;
 	font-size: $font-body;
+	text-rendering: optimizeLegibility;
+ 	-moz-osx-font-smoothing: grayscale;
+ 	-webkit-font-smoothing: antialiased;
 }
