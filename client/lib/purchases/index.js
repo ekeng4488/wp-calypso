@@ -14,7 +14,6 @@ import { recordTracksEvent } from 'calypso/lib/analytics/tracks';
 import { reduxDispatch } from 'calypso/lib/redux-bridge';
 import { getRenewalItemFromProduct } from 'calypso/lib/cart-values/cart-items';
 import {
-	getMonthlyPlanByYearly,
 	getPlan,
 	isMonthly as isMonthlyPlan,
 	isWpComPlan,
@@ -213,38 +212,6 @@ function handleRenewMultiplePurchasesClick( purchases, siteSlug, options = {} ) 
 		renewalUrl += '?redirect_to=' + encodeURIComponent( options.redirectTo );
 	}
 	debug( 'handling renewal click', purchases, siteSlug, renewItems, renewalUrl );
-
-	page( renewalUrl );
-}
-
-/**
- * Adds a purchase renewal to the cart and redirects to checkout.
- *
- * @param {object} purchase - the purchase to be renewed
- * @param {string} siteSlug - the site slug to renew the purchase for
- * @param {object} [options] - optional information
- * @param {string} [options.redirectTo] - Passed as redirect_to in checkout
- * @param {object} [options.tracksProps] - where was the renew button clicked from
- */
-function handleRenewMonthlyClick( purchase, siteSlug, options = {} ) {
-	const relatedMonthlyPlanSlug = getMonthlyPlanByYearly( purchase?.productSlug );
-
-	// Track the renew monthly submit.
-	recordTracksEvent( 'calypso_purchases_renew_monthly_click', {
-		product_slug: relatedMonthlyPlanSlug,
-		...options.tracksProps,
-	} );
-
-	if ( ! relatedMonthlyPlanSlug ) {
-		reduxDispatch( errorNotice( 'Could not find product slug for renewal.' ) );
-		throw new Error( 'Could not find product slug for renewal.' );
-	}
-
-	let renewalUrl = `/checkout/${ relatedMonthlyPlanSlug }/${ siteSlug || '' }`;
-	if ( options.redirectTo ) {
-		renewalUrl += '?redirect_to=' + encodeURIComponent( options.redirectTo );
-	}
-	debug( 'handling renew monthly click', purchase, siteSlug, relatedMonthlyPlanSlug, renewalUrl );
 
 	page( renewalUrl );
 }
@@ -810,7 +777,6 @@ export {
 	getSubscriptionsBySite,
 	handleRenewMultiplePurchasesClick,
 	handleRenewNowClick,
-	handleRenewMonthlyClick,
 	hasAmountAvailableToRefund,
 	hasIncludedDomain,
 	isAutoRenewing,
